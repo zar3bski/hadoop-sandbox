@@ -79,6 +79,9 @@ if [ -n "$GANGLIA_HOST" ]; then
     done > /etc/hadoop/hadoop-metrics2.properties
 fi
 
+# add some usefull packages
+apt-get install wget nano
+
 # create user for HDFS
 addgroup hadoop 
 adduser --ingroup hadoop --home /home/$USER_NAME $USER_NAME

@@ -80,7 +80,7 @@ services:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
     container_name: historyserver
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864 resourcemanager:8088"
     volumes:
       - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
