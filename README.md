@@ -36,8 +36,8 @@ access hdfs through the name node
 sudo docker exec -it namenode bash
 ```
 
-# Tools: 
-
+# Web interfaces: 
+- [Yarn ressource manager](http://localhost:8088)
 - [hue](http://localhost:8000)
 
 # Sources

@@ -31,12 +31,15 @@ services:
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
     container_name: resourcemanager
+    ports: 
+      - 8088:8088
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864"
     env_file:
       - ./hadoop.env
     networks:
       - hadoop
+      - frontend
 
   nodemanager1:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
@@ -71,6 +74,7 @@ services:
       - ./overrides/hue/hue-overrides.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
     depends_on:
       - namenode
+      - resourcemanager
     networks:
       - hadoop
       - frontend
