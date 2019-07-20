@@ -4,56 +4,80 @@ services:
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.1.1-java8
     container_name: namenode
-    hostname: namenode
     ports:
       - 9870:9870
+      - 8020:8020
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
+      - ./overrides/namenode/entrypoint.sh:/entrypoint.sh
     env_file:
       - ./hadoop.env
+      - .env
+    networks:
+      - hadoop
 
-  datanode:
+  datanode1:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
-    container_name: datanode
+    container_name: datanode1
     volumes:
       - hadoop_datanode:/hadoop/dfs/data
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     env_file:
       - ./hadoop.env
+    networks:
+      - hadoop
   
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
     container_name: resourcemanager
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode:9864"
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864"
     env_file:
       - ./hadoop.env
+    networks:
+      - hadoop
 
   nodemanager1:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
+    networks:
+      - hadoop    
   
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
     container_name: historyserver
     environment:
-      SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     volumes:
       - hadoop_historyserver:/hadoop/yarn/timeline
     env_file:
       - ./hadoop.env
+    networks:
+      - hadoop
 
   filebrowser: 
-    image: bde2020/hdfs-filebrowser:3.11
+    container_name: hue
+    image: gethue/hue:4.4.0
     ports:
-      - "8088:8088"
-    environment:
-      - NAMENODE_HOST=namenode
+      - "8000:8888"
+    env_file:
+      - ./hadoop.env
+    volumes: 
+      - ./overrides/hue/hue-overrides.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
+    depends_on:
+      - namenode
+    networks:
+      - hadoop
+      - frontend
+
+networks:
+  hadoop: 
+  frontend:
 
 volumes:
   hadoop_namenode:
