@@ -1,6 +1,7 @@
 version: '3.7'
 
 services:
+  #HADOOP MASTER
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.1.1-java8
     container_name: namenode
@@ -16,18 +17,6 @@ services:
     networks:
       - hadoop
 
-  datanode1:
-    image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
-    container_name: datanode1
-    volumes:
-      - hadoop_datanode:/hadoop/dfs/data
-    environment:
-      SERVICE_PRECONDITION: "namenode:9870"
-    env_file:
-      - ./hadoop.env
-    networks:
-      - hadoop
-  
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
     container_name: resourcemanager
@@ -41,16 +30,52 @@ services:
       - hadoop
       - frontend
 
+  # HADOOP SLAVE 1
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
+    container_name: datanode1
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data_1
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+    networks:
+      - hadoop
+
   nodemanager1:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
-    container_name: nodemanager
+    container_name: nodemanager1
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
     networks:
       - hadoop    
-  
+
+  # HADOOP SLAVE 2
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
+    container_name: datanode2
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data_1
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+    networks:
+      - hadoop
+
+  nodemanager2:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
+    container_name: nodemanager2
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode2:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    networks:
+      - hadoop    
+
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
     container_name: historyserver
