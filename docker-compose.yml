@@ -9,6 +9,7 @@ services:
       - 9870:9870
       - 8020:8020
     volumes:
+      - ./${USER_NAME}_home_on_namenode:/home/${USER_NAME}
       - hadoop_namenode:/hadoop/dfs/name
       - ./overrides/namenode/entrypoint.sh:/entrypoint.sh
     env_file:
