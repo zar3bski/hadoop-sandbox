@@ -124,9 +124,12 @@ do
 done
 
 # remove problematic package source
-sed -i '$ d' /etc/apt/sources.list && apt-get update
+sed -i '$ d' /etc/apt/sources.list
 
 # add some usefull packages
-echo Y | apt-get install nano python
+if [[ $INSTALL_PYTHON == "true" ]]; then
+  apt-get update
+  echo Y | apt-get install nano python
+fi
 
 exec $@

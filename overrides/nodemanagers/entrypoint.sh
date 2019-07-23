@@ -114,9 +114,12 @@ do
     wait_for_it ${i}
 done
 
-# INSTALL PYTHON ON NODES
+sed -i '$ d' /etc/apt/sources.list 
 
-sed -i '$ d' /etc/apt/sources.list && apt-get update
-echo Y | apt-get install python
+# INSTALL PYTHON ON NODES
+if [[ $INSTALL_PYTHON == "true" ]]; then
+  apt-get update
+  echo Y | apt-get install nano python
+fi
 
 exec $@
