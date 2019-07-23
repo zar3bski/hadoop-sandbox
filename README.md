@@ -13,6 +13,7 @@ add an `.env` file at the root
 CLUSTER_NAME=the_name_of_your_cluster
 USER_NAME=your_name
 USER_PASSWORD=def@ultP@ssw0rd
+INSTALL_PYTHON=true # whether you want python or not (to run hadoop streaming)
 ```
 
 ## Start, Stop and Monitor the stack
@@ -45,6 +46,7 @@ sudo docker exec -it namenode bash
 # Web interfaces: 
 - [Yarn ressource manager](http://localhost:8088)
 - [hue](http://localhost:8000)
+- [namenode overview](http://localhost:9870)
 
 # Sources
 [main repos](https://hub.docker.com/r/bde2020)
@@ -54,5 +56,4 @@ parts added
 [hiveserver2](https://hub.docker.com/r/bde2020/hive/)
 
 # Usefull ressources
-
 [complete list of HDFS commands](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
