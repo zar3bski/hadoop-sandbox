@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# create user for HDFS
-addgroup supergroup 
-adduser --ingroup supergroup --home /home/$USER_NAME $USER_NAME
-echo $USER_PASSWORD | passwd $USER_NAME --stdin
-echo 'export PATH="/opt/hadoop-3.1.1/bin/:$PATH"' >> /home/$USER_NAME/.bashrc
-
-hdfs dfs -mkdir -p /user/$USER_NAME
-hdfs dfs -chown $USER_NAME:supergroup /user/$USER_NAME
-
 # Set some sensible defaults
 export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-hdfs://`hostname -f`:8020}
 
@@ -123,10 +114,9 @@ do
     wait_for_it ${i}
 done
 
-# remove problematic package source
-sed -i '$ d' /etc/apt/sources.list && apt-get update
+# INSTALL PYTHON ON NODES
 
-# add some usefull packages
-echo Y | apt-get install nano python
+sed -i '$ d' /etc/apt/sources.list && apt-get update
+echo Y | apt-get install python
 
 exec $@

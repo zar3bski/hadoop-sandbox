@@ -1,4 +1,8 @@
 
+# prerequisits
+
+you'll need a [docker engine](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [docker-compose](https://docs.docker.com/compose/)
+
 # Setting
 
 Clone this repo
@@ -6,14 +10,12 @@ Clone this repo
 add an `.env` file at the root
 
 ```
-CLUSTER_NAME=bifrost
-USER_NAME=dav
+CLUSTER_NAME=the_name_of_your_cluster
+USER_NAME=your_name
 USER_PASSWORD=def@ultP@ssw0rd
 ```
 
-
-# Basic commands
-
+## Start, Stop and Monitor the stack
 start the stack
 ```
 docker-compose up -d --build
@@ -36,6 +38,10 @@ access hdfs through the name node
 sudo docker exec -it namenode bash
 ```
 
+# Relavant locations
+
+- hadoop streaming `/opt/hadoop-3.1.1/share/hadoop/tools/lib/hadoop-streaming-3.1.1.jar`
+
 # Web interfaces: 
 - [Yarn ressource manager](http://localhost:8088)
 - [hue](http://localhost:8000)
@@ -44,7 +50,8 @@ sudo docker exec -it namenode bash
 [main repos](https://hub.docker.com/r/bde2020)
 [base of the docker-compose](https://github.com/big-data-europe/docker-hadoop/blob/master/docker-compose.yml)
 parts added
-[hue](https://hub.docker.com/r/bde2020/hdfs-filebrowser)
+[hue](https://hub.docker.com/r/gethue/hue)
+[hiveserver2](https://hub.docker.com/r/bde2020/hive/)
 
 # Usefull ressources
 
