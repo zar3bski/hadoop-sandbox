@@ -95,6 +95,7 @@ services:
     networks:
       - hadoop
 
+  # HUE
   filebrowser: 
     container_name: hue
     image: gethue/hue:4.4.0
@@ -111,6 +112,40 @@ services:
       - hadoop
       - frontend
 
+  # HIVE 
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hiveserver
+    env_file:
+      - ./hadoop.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    networks:
+      - hadoop 
+
+  hive-metastore:
+    container_name: hivemetastore
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    env_file:
+      - ./hadoop.env
+    command: /opt/hive/bin/hive --service metastore
+    networks:
+      - hadoop
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864 hive-metastore-postgresql:5432"
+
+  hive-metastore-postgresql:
+    container_name: hivedb
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    networks:
+      - hadoop
+
+  presto-coordinator:
+    container_name: presto
+    image: shawnzhu/prestodb:0.181
+    networks:
+      - hadoop
 
 networks:
   hadoop: 
