@@ -15,9 +15,10 @@ done
 # ===> ON THE NAME NODE
 docker exec namenode chmod -R 755 /home/${ADMIN_NAME}/data
 docker exec namenode hdfs dfs -mkdir -p /user/anonymous
-docker exec namenode hdfs dfs -chmod -R 774 /user/anonymous
 docker exec namenode hdfs dfs -put /home/${ADMIN_NAME}/data/prr-20055-2010.csv /user/anonymous
 docker exec namenode hdfs dfs -put /home/${ADMIN_NAME}/data/salammbo.txt /user/anonymous
+# finally, make this folder accessible to anyone
+docker exec namenode hdfs dfs -chmod -R 774 /user/anonymous
 
 # CLEAN UP
 rm supports/data/*.csv
