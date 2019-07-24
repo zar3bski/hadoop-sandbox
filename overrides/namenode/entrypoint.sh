@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# create user for HDFS
-addgroup supergroup 
-adduser --ingroup supergroup --home /home/$USER_NAME $USER_NAME
-echo $USER_PASSWORD | passwd $USER_NAME --stdin
-echo 'export PATH="/opt/hadoop-3.1.1/bin/:$PATH"' >> /home/$USER_NAME/.bashrc
-
-hdfs dfs -mkdir -p /user/$USER_NAME
-hdfs dfs -chown $USER_NAME:supergroup /user/$USER_NAME
-
 # Set some sensible defaults
 export CORE_CONF_fs_defaultFS=${CORE_CONF_fs_defaultFS:-hdfs://`hostname -f`:8020}
 

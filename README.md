@@ -11,8 +11,8 @@ add an `.env` file at the root
 
 ```
 CLUSTER_NAME=the_name_of_your_cluster
-USER_NAME=your_name
-USER_PASSWORD=def@ultP@ssw0rd
+ADMIN_NAME=your_name
+ADMIN_PASSWORD=def@ultP@ssw0rd
 INSTALL_PYTHON=true # whether you want python or not (to run hadoop streaming)
 ```
 
@@ -33,6 +33,13 @@ See logs
 ```
 docker-compose logs -t -f
 ```
+
+alternatively, you can also create user and import data stored in `supports/data` in HDFS. 
+
+```
+chmod +x setup.sh
+./setup.sh
+``` 
 
 access hdfs through the name node
 ```
