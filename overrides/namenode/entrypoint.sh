@@ -123,4 +123,23 @@ if [[ $INSTALL_PYTHON == "true" ]]; then
   echo Y | apt-get install nano python
 fi
 
+# install sqoop
+# TODO: https://sqoop.apache.org/docs/1.99.7/admin/Installation.html
+
+
+# wget http://archive.apache.org/dist/sqoop/1.99.7/sqoop-1.99.7-bin-hadoop200.tar.gz
+# tar -xvf sqoop-1.99.7-bin-hadoop200.tar.gz
+
+# cp -r /opt/hadoop-3.1.1/share/hadoop/common/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
+# cp -r /opt/hadoop-3.1.1/share/hadoop/hdfs/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
+# cp -r /opt/hadoop-3.1.1/share/hadoop/mapreduce/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
+# cp -r /opt/hadoop-3.1.1/share/hadoop/yarn/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
+
+#HADOOP_HOME=/opt/hadoop-3.1.1 
+#HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1/share/hadoop/mapreduce 
+#HADOOP_COMMON_HOME=/opt/hadoop-3.1.1/share/hadoop/common 
+#HADOOP_HDFS_HOME=/opt/hadoop-3.1.1/share/hadoop/hdfs
+#HADOOP_YARN_HOME=/opt/hadoop-3.1.1/share/hadoop/yarn
+#SQOOP_SERVER_EXTRA_LIB=/var/lib/sqoop2/
+
 exec $@
