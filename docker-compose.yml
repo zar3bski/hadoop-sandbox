@@ -36,7 +36,7 @@ services:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
     container_name: datanode1
     volumes:
-      - hadoop_datanode:/hadoop/dfs/data_1
+      - hadoop_datanode_1:/hadoop/dfs/data
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     env_file:
@@ -61,7 +61,7 @@ services:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
     container_name: datanode2
     volumes:
-      - hadoop_datanode:/hadoop/dfs/data_1
+      - hadoop_datanode_2:/hadoop/dfs/data
     environment:
       SERVICE_PRECONDITION: "namenode:9870"
     env_file:
@@ -153,5 +153,6 @@ networks:
 
 volumes:
   hadoop_namenode:
-  hadoop_datanode:
+  hadoop_datanode_1:
+  hadoop_datanode_2:
   hadoop_historyserver:
