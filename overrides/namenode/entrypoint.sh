@@ -117,29 +117,44 @@ done
 # remove problematic package source
 sed -i '$ d' /etc/apt/sources.list
 
-# add some usefull packages
+# install python
 if [[ $INSTALL_PYTHON == "true" ]]; then
   apt-get update
   echo Y | apt-get install nano python
 fi
 
 # install sqoop
-# TODO: https://sqoop.apache.org/docs/1.99.7/admin/Installation.html
+if [[ $INSTALL_SQOOP == "true" ]]; then
+  
+  echo "export HADOOP_HOME=/opt/hadoop-3.1.1" >> /etc/profile
+  echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /etc/profile
+  echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /etc/profile
+  echo "export HADOOP_HDFS_HOME=/opt/hadoop-3.1.1" >> /etc/profile
+  echo "export YARN_HOME=/opt/hadoop-3.1.1" >> /etc/profile
+  echo "export HADOOP_COMMON_LIB_NATIVE_DIR=/opt/hadoop-3.1.1/lib/native" >> /etc/profile
+  echo "export SQOOP_HOME=/usr/lib/sqoop" >> /etc/profile
+
+  cd /tmp
+
+  curl http://us.mirrors.quenda.co/apache/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz --output sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+  tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+  mv sqoop-1.4.7.bin__hadoop-2.6.0/ /usr/lib/sqoop
+  echo "export PATH=$PATH:/usr/lib/sqoop/bin" >> /etc/profile
+
+  curl https://downloads.mysql.com/archives/get/file/mysql-connector-java-8.0.16.tar.gz --output mysql-connector-java-8.0.16.tar.gz
+  tar -xvf mysql-connector-java-8.0.16.tar.gz
+  mv mysql-connector-java-8.0.16/mysql-connector-java-8.0.16.jar /usr/lib/sqoop/lib
+
+  mv /usr/lib/sqoop/conf/sqoop-env-template.sh /usr/lib/sqoop/conf/sqoop-env.sh
+  echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /usr/lib/sqoop/conf/sqoop-env.sh
+  echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /usr/lib/sqoop/conf/sqoop-env.sh
 
 
-# wget http://archive.apache.org/dist/sqoop/1.99.7/sqoop-1.99.7-bin-hadoop200.tar.gz
-# tar -xvf sqoop-1.99.7-bin-hadoop200.tar.gz
+  rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
+  rm mysql-connector-java-8.0.16.tar.gz
 
-# cp -r /opt/hadoop-3.1.1/share/hadoop/common/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
-# cp -r /opt/hadoop-3.1.1/share/hadoop/hdfs/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
-# cp -r /opt/hadoop-3.1.1/share/hadoop/mapreduce/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
-# cp -r /opt/hadoop-3.1.1/share/hadoop/yarn/* /usr/lib/sqoop-1.99.7-bin-hadoop200/server/lib
+  # TODO FIX PATH NOT FOUND AND GLOBAL ENV
 
-#HADOOP_HOME=/opt/hadoop-3.1.1 
-#HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1/share/hadoop/mapreduce 
-#HADOOP_COMMON_HOME=/opt/hadoop-3.1.1/share/hadoop/common 
-#HADOOP_HDFS_HOME=/opt/hadoop-3.1.1/share/hadoop/hdfs
-#HADOOP_YARN_HOME=/opt/hadoop-3.1.1/share/hadoop/yarn
-#SQOOP_SERVER_EXTRA_LIB=/var/lib/sqoop2/
+fi
 
 exec $@
