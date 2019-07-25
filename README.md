@@ -1,5 +1,5 @@
 
-![image](supports/figures/stack.png)
+![image](supports/figures/stack.png =250x)
 
 # prerequisits
 
