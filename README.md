@@ -1,4 +1,6 @@
 
+![image](supports/figures/stack.png)
+
 # prerequisits
 
 you'll need a [docker engine](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [docker-compose](https://docs.docker.com/compose/)
