@@ -117,34 +117,47 @@ done
 # remove problematic package source
 sed -i '$ d' /etc/apt/sources.list
 
+# create user from env 
+useradd -s /bin/bash -p $(openssl passwd $ADMIN_PASSWORD) $ADMIN_NAME
+chown -R $ADMIN_NAME /home/$ADMIN_NAME/
+
 # install python
 if [[ $INSTALL_PYTHON == "true" ]]; then
   apt-get update
   echo Y | apt-get install nano python
 fi
 
-
 # install sqoop
 if [[ $INSTALL_SQOOP == "true" ]]; then
-  
-  echo "export HADOOP_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-  echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-  echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-  echo "export HADOOP_HDFS_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-  echo "export YARN_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-  echo "export HADOOP_COMMON_LIB_NATIVE_DIR=/opt/hadoop-3.1.1/lib/native" >> /etc/profile
-  echo "export SQOOP_HOME=/usr/lib/sqoop" >> /etc/profile
+     
+  echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /root/.bashrc
+  echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /root/.bashrc
+  echo "export HADOOP_HDFS_HOME=/opt/hadoop-3.1.1" >> /root/.bashrc
+  echo "export YARN_HOME=/opt/hadoop-3.1.1" >> /root/.bashrc
+  echo "export HADOOP_COMMON_LIB_NATIVE_DIR=/opt/hadoop-3.1.1/lib/native" >> /root/.bashrc
+  echo "export SQOOP_HOME=/usr/lib/sqoop" >> /root/.bashrc
+
+  echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /home/$ADMIN_NAME/.bashrc
+  echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /home/$ADMIN_NAME/.bashrc
+  echo "export HADOOP_HDFS_HOME=/opt/hadoop-3.1.1" >> /home/$ADMIN_NAME/.bashrc
+  echo "export YARN_HOME=/opt/hadoop-3.1.1" >> /home/$ADMIN_NAME/.bashrc
+  echo "export HADOOP_COMMON_LIB_NATIVE_DIR=/opt/hadoop-3.1.1/lib/native" >> /home/$ADMIN_NAME/.bashrc
+  echo "export SQOOP_HOME=/usr/lib/sqoop" >> /home/$ADMIN_NAME/.bashrc
 
   cd /tmp
 
   curl http://us.mirrors.quenda.co/apache/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz --output sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
   tar -xvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
   mv sqoop-1.4.7.bin__hadoop-2.6.0/ /usr/lib/sqoop
-  echo "export PATH=$PATH:/usr/lib/sqoop/bin" >> /etc/profile
+  echo "export PATH=$PATH:/usr/lib/sqoop/bin" >> /root/.bashrc
+  echo "export PATH=$PATH:/usr/lib/sqoop/bin" >> /home/$ADMIN_NAME/.bashrc
 
   curl https://downloads.mysql.com/archives/get/file/mysql-connector-java-8.0.16.tar.gz --output mysql-connector-java-8.0.16.tar.gz
   tar -xvf mysql-connector-java-8.0.16.tar.gz
   mv mysql-connector-java-8.0.16/mysql-connector-java-8.0.16.jar /usr/lib/sqoop/lib
+
+  curl https://jdbc.postgresql.org/download/postgresql-42.2.6.jar --output postgresql-42.2.6.jar
+  mv postgresql-42.2.6.jar /usr/lib/sqoop/lib
 
   mv /usr/lib/sqoop/conf/sqoop-env-template.sh /usr/lib/sqoop/conf/sqoop-env.sh
   echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /usr/lib/sqoop/conf/sqoop-env.sh
@@ -152,8 +165,7 @@ if [[ $INSTALL_SQOOP == "true" ]]; then
 
   rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
   rm mysql-connector-java-8.0.16.tar.gz
-
-  # TODO FIX PATH NOT FOUND AND GLOBAL ENV
+  rm postgresql-42.2.6.jar
 
 fi
 
