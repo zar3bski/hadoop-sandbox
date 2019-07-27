@@ -124,25 +124,6 @@ if [[ $INSTALL_PYTHON == "true" ]]; then
 fi
 
 
-
-apt-get update
-
-useradd anonymous -d /home/anonymous
-echo Y | apt-get install openssh-server nano
-
-echo "Port 2222" >> /etc/ssh/sshd_config
-
-service ssh restart
-
-echo "export HADOOP_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-echo "export HADOOP_HDFS_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-echo "export YARN_HOME=/opt/hadoop-3.1.1" >> /etc/profile
-echo "export HADOOP_COMMON_LIB_NATIVE_DIR=/opt/hadoop-3.1.1/lib/native" >> /etc/profile
-echo "export SQOOP_HOME=/usr/lib/sqoop" >> /etc/profile
-echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/profile
-
 # install sqoop
 if [[ $INSTALL_SQOOP == "true" ]]; then
   
@@ -168,7 +149,6 @@ if [[ $INSTALL_SQOOP == "true" ]]; then
   mv /usr/lib/sqoop/conf/sqoop-env-template.sh /usr/lib/sqoop/conf/sqoop-env.sh
   echo "export HADOOP_COMMON_HOME=/opt/hadoop-3.1.1" >> /usr/lib/sqoop/conf/sqoop-env.sh
   echo "export HADOOP_MAPRED_HOME=/opt/hadoop-3.1.1" >> /usr/lib/sqoop/conf/sqoop-env.sh
-
 
   rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
   rm mysql-connector-java-8.0.16.tar.gz
