@@ -48,7 +48,7 @@ access hdfs through the name node
 sudo docker exec -it namenode bash
 ```
 
-# Relavant locations
+# Relevant locations
 
 - hadoop streaming `/opt/hadoop-3.1.1/share/hadoop/tools/lib/hadoop-streaming-3.1.1.jar`
 
@@ -58,6 +58,7 @@ sudo docker exec -it namenode bash
 - [namenode overview](http://localhost:9870)
 
 # Sources
+Most sources were gathered from [big-data-europe](https://www.big-data-europe.eu/)'s repos
 [main repos](https://hub.docker.com/r/bde2020)
 [base of the docker-compose](https://github.com/big-data-europe/docker-hadoop/blob/master/docker-compose.yml)
 parts added

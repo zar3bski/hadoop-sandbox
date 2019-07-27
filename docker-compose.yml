@@ -14,7 +14,7 @@ services:
       - ./overrides/namenode/entrypoint.sh:/entrypoint.sh
     env_file:
       - ./hadoop.env
-      - .env
+
     networks:
       - hadoop
 
@@ -53,7 +53,7 @@ services:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
-      - .env
+
     networks:
       - hadoop    
 
