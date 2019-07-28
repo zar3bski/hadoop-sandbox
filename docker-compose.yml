@@ -14,7 +14,7 @@ services:
       - ./overrides/namenode/entrypoint.sh:/entrypoint.sh
     env_file:
       - ./hadoop.env
-
+      - .env
     networks:
       - hadoop
 
@@ -29,7 +29,6 @@ services:
       - ./hadoop.env
     networks:
       - hadoop
-      - frontend
 
   # HADOOP SLAVE 1
   datanode1:
@@ -112,7 +111,6 @@ services:
       - resourcemanager
     networks:
       - hadoop
-      - frontend
 
   # HIVE 
   hive-server:
@@ -151,7 +149,6 @@ services:
 
 networks:
   hadoop: 
-  frontend:
 
 volumes:
   hadoop_namenode:
