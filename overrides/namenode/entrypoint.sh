@@ -165,7 +165,6 @@ if [[ $INSTALL_SQOOP == "true" ]]; then
 
   rm sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz
   rm mysql-connector-java-8.0.16.tar.gz
-  rm postgresql-42.2.6.jar
 
 fi
 
