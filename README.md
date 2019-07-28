@@ -16,6 +16,7 @@ CLUSTER_NAME=the_name_of_your_cluster
 ADMIN_NAME=your_name
 ADMIN_PASSWORD=def@ultP@ssw0rd
 INSTALL_PYTHON=true # whether you want python or not (to run hadoop streaming)
+INSTALL_SQOOP=true
 ```
 
 ## Start, Stop and Monitor the stack
