@@ -1,24 +1,12 @@
 # TP 
 
-## Créer votre branche du projet
+bon, j'ai peur d'en paumer pas mal avec Git donc vous pourrez m'envoyer votre travail à cette adresse : zarebskidavid@gmail.com
 
-L'ensemble des commandes qui suivent sont à effectuer depuis la racine du projet `hadoop-sandbox`. Nous allons nous servir de git. Assurez vous tout d'abord que votre version du projet est à jour (`git pull`)
+## Quelques questions de cours
 
-Il vous faudra ensuite créer une banche locale qui portera votre nom
-```
-git branch nom_prenom
-```
-puis basculer dessus
-```
-git checkout nom_prenom
-```
+[https://docs.google.com/forms/d/e/1FAIpQLSc1B_lSJFaI7DTOjGzCbbvvc7yDP0v253R-6UPBZCTD904hJg/viewform](https://docs.google.com/forms/d/e/1FAIpQLSc1B_lSJFaI7DTOjGzCbbvvc7yDP0v253R-6UPBZCTD904hJg/viewform)
 
-Vous pouvez vous assurer que vous êtes bien sur votre branche en tappant `git status`
-```
-git status
-Sur la branche nom_prenom
-```
-Dernier point **important**, il faut que votre version inclue le contenu du dossier *user_home_on_namenode*. Assurez vous que celui-ci ne figure pas dans le fichier `.gitignore` situé à la racine du projet (normalement non). Votre code devra se trouver dans ce dossier.
+ne perdez pas trop de temps dessus
 
 ## Le TP à proprement parler
 
@@ -68,14 +56,3 @@ incident_le_plus_fréquent	proportion_représentée
 incident_le_moins_fréquent	proportion_représentée
 
 ```
-
-## Transmettre votre travail
-
-Une fois votre travail terminé, il va vous falloir envoyer votre branche sur le repos. Pour cela, effectez les commandes suivantes: 
-
-```
-git commit -am "tp votre nom votre prenom"
-git push
-```
-
-Le reste des opérations se fera directement sur l'interface web du projet: [https://github.com/zar3bski/hadoop-sandbox](https://github.com/zar3bski/hadoop-sandbox)
