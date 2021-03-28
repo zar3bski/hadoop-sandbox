@@ -1,3 +1,4 @@
 .env
 supports/data
 namenode/home
+namenode/data
