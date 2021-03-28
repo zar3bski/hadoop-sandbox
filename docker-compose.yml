@@ -9,9 +9,9 @@ services:
       - 9870:9870
       - 8020:8020
     volumes:
-      - ./${ADMIN_NAME}_home_on_namenode:/home/${ADMIN_NAME}
+      - ./namenode/home/${ADMIN_NAME}:/home/${ADMIN_NAME}
+      - ./namenode/entrypoint.sh:/entrypoint.sh
       - hadoop_namenode:/hadoop/dfs/name
-      - ./overrides/namenode/entrypoint.sh:/entrypoint.sh
     env_file:
       - ./hadoop.env
       - .env
@@ -47,7 +47,7 @@ services:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager1
     volumes:
-      - ./overrides/nodemanagers/entrypoint.sh:/entrypoint.sh
+      - ./nodemanagers/entrypoint.sh:/entrypoint.sh
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     env_file:
@@ -73,7 +73,7 @@ services:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager2
     volumes:
-      - ./overrides/nodemanagers/entrypoint.sh:/entrypoint.sh
+      - ./nodemanagers/entrypoint.sh:/entrypoint.sh
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode2:9864 resourcemanager:8088"
     env_file:
@@ -97,7 +97,7 @@ services:
       - hadoop
 
   # HUE
-  filebrowser:
+  hue:
     container_name: hue
     image: gethue/hue:4.4.0
     ports:
@@ -105,15 +105,15 @@ services:
     env_file:
       - ./hadoop.env
     volumes:
-      - ./overrides/hue/hue-overrides.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
+      - ./hue/hue-overrides.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
     depends_on:
       - namenode
       - resourcemanager
-      - postgres
+      - hue-db
     networks:
       - hadoop
 
-  postgres:
+  hue-db:
     container_name: hue_host
     restart: always
     image: postgres:11.9
@@ -125,7 +125,7 @@ services:
       - 5432:5432
     volumes:
       - hadoop_postgres:/var/lib/postgresql/data
-      - ./overrides/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./hue-db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - hadoop
 
