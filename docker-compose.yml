@@ -9,9 +9,10 @@ services:
       - 9870:9870
       - 8020:8020
     volumes:
-      - ./${ADMIN_NAME}_home_on_namenode:/home/${ADMIN_NAME}
+      - ./namenode/home/${ADMIN_NAME:?err}:/home/${ADMIN_NAME:?err}
+      - ./namenode/data:/home/data
+      - ./namenode/entrypoint.sh:/entrypoint.sh
       - hadoop_namenode:/hadoop/dfs/name
-      - ./overrides/namenode/entrypoint.sh:/entrypoint.sh
     env_file:
       - ./hadoop.env
       - .env
@@ -21,7 +22,7 @@ services:
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
     container_name: resourcemanager
-    ports: 
+    ports:
       - 8088:8088
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864"
@@ -46,15 +47,15 @@ services:
   nodemanager1:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager1
-    volumes: 
-      - ./overrides/nodemanagers/entrypoint.sh:/entrypoint.sh
+    volumes:
+      - ./nodemanagers/entrypoint.sh:/entrypoint.sh
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
       - .env
     networks:
-      - hadoop    
+      - hadoop
 
   # HADOOP SLAVE 2
   datanode2:
@@ -72,20 +73,20 @@ services:
   nodemanager2:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager2
-    volumes: 
-      - ./overrides/nodemanagers/entrypoint.sh:/entrypoint.sh
+    volumes:
+      - ./nodemanagers/entrypoint.sh:/entrypoint.sh
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode2:9864 resourcemanager:8088"
     env_file:
       - ./hadoop.env
       - .env
     networks:
-      - hadoop    
+      - hadoop
 
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
     container_name: historyserver
-    ports: 
+    ports:
       - 8188:8188
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864 resourcemanager:8088"
@@ -97,22 +98,39 @@ services:
       - hadoop
 
   # HUE
-  filebrowser: 
+  hue:
     container_name: hue
     image: gethue/hue:4.4.0
     ports:
       - "8000:8888"
     env_file:
       - ./hadoop.env
-    volumes: 
-      - ./overrides/hue/hue-overrides.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
+    volumes:
+      - ./hue/hue-overrides.ini:/usr/share/hue/desktop/conf/hue-overrides.ini
     depends_on:
       - namenode
       - resourcemanager
+      - hue-db
     networks:
       - hadoop
 
-  # HIVE 
+  hue-db:
+    container_name: hue_host
+    restart: always
+    image: postgres:11.9
+    environment:
+      - POSTGRES_USER=hue_user
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hue_db
+    ports:
+      - 5432:5432
+    volumes:
+      - hadoop_postgres:/var/lib/postgresql/data
+      - ./hue-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - hadoop
+
+  # HIVE
   hive-server:
     image: bde2020/hive:2.3.2-postgresql-metastore
     container_name: hiveserver
@@ -122,7 +140,7 @@ services:
       HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
       SERVICE_PRECONDITION: "hive-metastore:9083"
     networks:
-      - hadoop 
+      - hadoop
 
   hive-metastore:
     container_name: hivemetastore
@@ -148,10 +166,11 @@ services:
       - hadoop
 
 networks:
-  hadoop: 
+  hadoop:
 
 volumes:
   hadoop_namenode:
   hadoop_datanode_1:
   hadoop_datanode_2:
   hadoop_historyserver:
+  hadoop_postgres:
