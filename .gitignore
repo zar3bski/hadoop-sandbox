@@ -1,4 +1,4 @@
 .env
 supports/data
-namenode/home
-namenode/data
+namenode/home/*
+namenode/data/*
