@@ -20,8 +20,6 @@ services:
       - hadoop
 
   resourcemanager:
-    depends_on:
-      - namenode
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.1.1-java8
     container_name: resourcemanager
     ports:
@@ -35,8 +33,6 @@ services:
 
   # Hadoop slave 1
   datanode1:
-    depends_on:
-      - namenode
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
     container_name: datanode1
     volumes:
@@ -49,8 +45,6 @@ services:
       - hadoop
 
   nodemanager1:
-    depends_on:
-      - namenode
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager1
     volumes:
@@ -65,8 +59,6 @@ services:
 
   # Hadoop slave 2
   datanode2:
-    depends_on:
-      - namenode
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.1.1-java8
     container_name: datanode2
     volumes:
@@ -79,8 +71,6 @@ services:
       - hadoop
 
   nodemanager2:
-    depends_on:
-      - namenode
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.1.1-java8
     container_name: nodemanager2
     volumes:
@@ -94,8 +84,6 @@ services:
       - hadoop
 
   historyserver:
-    depends_on:
-      - namenode
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.1.1-java8
     container_name: historyserver
     ports:
@@ -111,8 +99,6 @@ services:
 
   # HUE (Management node, similar to Ambari)
   hue:
-    depends_on:
-      - hue_host
     container_name: hue
     image: gethue/hue:4.4.0
     ports:
@@ -124,14 +110,11 @@ services:
     depends_on:
       - namenode
       - resourcemanager
-      - hue-db
     networks:
       - hadoop
 
   hue-db:
     # TODO: Rename hue_host to hue-db. Also in hue-overrides.ini and in hue service
-    depends_on:
-      - namenode
     container_name: hue_host
     restart: always
     image: postgres:11.9
@@ -149,8 +132,6 @@ services:
 
   # HIVE
   hive-server:
-    depends_on:
-      - namenode
     image: bde2020/hive:2.3.2-postgresql-metastore
     container_name: hiveserver
     env_file:
@@ -162,8 +143,6 @@ services:
       - hadoop
 
   hive-metastore:
-    depends_on:
-      - hive-server
     container_name: hivemetastore
     image: bde2020/hive:2.3.2-postgresql-metastore
     env_file:
@@ -175,16 +154,12 @@ services:
       SERVICE_PRECONDITION: "namenode:9870 datanode1:9864 datanode2:9864 hive-metastore-postgresql:5432"
 
   hive-metastore-postgresql:
-    depends_on:
-      - hive-server
     container_name: hivedb
     image: bde2020/hive-metastore-postgresql:2.3.0
     networks:
       - hadoop
 
   presto-coordinator:
-    depends_on:
-      - namenode
     container_name: presto
     image: shawnzhu/prestodb:0.181
     networks:
@@ -192,8 +167,6 @@ services:
 
   # Spark Master
   spark-master:
-    depends_on:
-      - namenode
     image: bde2020/spark-master:2.3.2-hadoop3.1.1-java8
     container_name: spark-master
     ports:
@@ -206,8 +179,6 @@ services:
 
   # Spark workers
   spark-worker-1:
-    depends_on:
-      - spark-master
     image: bde2020/spark-worker:2.3.2-hadoop3.1.1-java8
     container_name: spark-worker-1
     depends_on:
@@ -220,8 +191,6 @@ services:
       - hadoop
 
   spark-worker-2:
-    depends_on:
-      - spark-master
     image: bde2020/spark-worker:2.3.2-hadoop3.1.1-java8
     container_name: spark-worker-2
     depends_on:
@@ -235,8 +204,6 @@ services:
 
   # Zeppelin Notebooks for Spark, Python, R and other connectors
   zeppelin:
-    depends_on:
-      - spark-master
     image: apache/zeppelin:0.9.0
     container_name: zeppelin
     ports:
