@@ -172,8 +172,8 @@ services:
     ports:
       - 8080:8080
       - 7077:7077
-    environment:
-      - INIT_DAEMON_STEP=setup_spark
+    env_file:
+      - ./hadoop.env
     networks: 
       - hadoop
 
@@ -185,7 +185,9 @@ services:
     ports:
       - 8081:8081
     environment:
-      - "SPARK_MASTER=spark://spark-master:7077"
+      - SPARK_MASTER=spark://spark-master:7077
+    env_file:
+      - ./hadoop.env
     networks: 
       - hadoop
   
@@ -197,7 +199,9 @@ services:
     ports:
       - 8082:8081
     environment:
-      - "SPARK_MASTER=spark://spark-master:7077"
+      - SPARK_MASTER=spark://spark-master:7077
+    env_file:
+      - ./hadoop.env
     networks: 
       - hadoop
 
