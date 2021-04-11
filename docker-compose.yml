@@ -10,7 +10,7 @@ services:
       - 8020:8020
     volumes:
       - ./namenode/home/${ADMIN_NAME:?err}:/home/${ADMIN_NAME:?err}
-      - ./namenode/data:/home/data
+      - ./namenode/hadoop-data:/hadoop-data
       - ./namenode/entrypoint.sh:/entrypoint.sh
       - hadoop_namenode:/hadoop/dfs/name
     env_file:
