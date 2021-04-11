@@ -205,6 +205,25 @@ services:
     networks: 
       - hadoop
 
+  zeppelin:
+    build: ./zeppelin
+    ports:
+      - 8083:8080
+    volumes:
+      - ./notebook:/opt/zeppelin/notebook
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
+      - SPARK_MASTER=spark://spark-master:7077
+      - MASTER=spark://spark-master:7077
+      #SPARK_SUBMIT_OPTIONS: "--jars /opt/sansa-examples/jars/sansa-examples-spark-2016-12.jar"
+    depends_on:
+      spark-master:
+        condition: service_healthy
+      namenode:
+        condition: service_healthy
+    networks:
+      - hadoop
+
 networks:
   hadoop:
 
