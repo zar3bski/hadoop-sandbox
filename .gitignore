@@ -1,3 +1,5 @@
 .env
 supports/data
-namenode/
+namenode/home/*
+namenode/hadoop-data/*
+test
