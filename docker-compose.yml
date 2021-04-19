@@ -212,12 +212,13 @@ services:
     build:
       context: jupyter-spark
       args: 
-        - spark_version=3.1.1
-        - hadoop_version=3.2
-        - spark_checksum=E90B31E58F6D95A42900BA4D288261D71F6C19FA39C1CB71862B792D1B5564941A320227F6AB0E09D946F16B8C1969ED2DEA2A369EC8F9D2D7099189234DE1BE
-        - openjdk_version=11
-        - conda_env=python37
-        - py_ver=3.7
+        - SPARK_VERSION=3.1.1
+        - HADOOP_VERSION=3.2
+        - SPARK_CHECKSUM=E90B31E58F6D95A42900BA4D288261D71F6C19FA39C1CB71862B792D1B5564941A320227F6AB0E09D946F16B8C1969ED2DEA2A369EC8F9D2D7099189234DE1BE
+        - OPENJDK_VERSION=11
+        # Make sure the python version in the driver (the notebooks) is the same as in spark-master,
+        # spark-worker-1, and spark-worker-2
+        - PYTHON_VERSION=3.7.10
     ports: 
       - 8888:8888
       - 8889:8889
