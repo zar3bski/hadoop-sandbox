@@ -68,6 +68,7 @@ parts added
 
 # Usefull ressources
 [complete list of HDFS commands](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
+[Udemy Hadoop course](https://www.udemy.com/course/the-ultimate-hands-on-hadoop-tame-your-big-data/)
 
 # Example usage
 ## Downloading some data and putting it into the HDFS
@@ -98,3 +99,6 @@ hadoop fs -ls playground/ml-100k
 
 Now, browse the HDFS file system from the [UI of the namenode](http://localhost:9870/explorer.html#/user/root/playground/ml-100k) 
 and convince yourself that the data is really there!
+
+## Load some data into HIVE
+To loading some data from HDFS into HIVE, open the [UI of hue]()
