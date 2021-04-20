@@ -51,7 +51,7 @@ sudo docker exec -it namenode bash
 
 # Relevant locations
 
-- hadoop streaming `/opt/hadoop-3.1.1/share/hadoop/tools/lib/hadoop-streaming-3.1.1.jar`
+- hadoop streaming `/opt/hadoop-3.2.1/share/hadoop/tools/lib/hadoop-streaming-3.1.1.jar`
 
 # Web interfaces: 
 - [Yarn ressource manager](http://localhost:8088)
@@ -68,3 +68,29 @@ parts added
 
 # Usefull ressources
 [complete list of HDFS commands](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
+
+# Example usage
+Go into the namenode and download some data
+```
+# Go into the namenode container
+docker exec -it namenode bash
+
+# Install some software utilities
+apt-get install wget unzip
+
+# Download some data into the hadoop-data directory
+cd /hadoop-data
+wget "http://files.grouplens.org/datasets/movielens/ml-100k.zip"
+
+# Extract the zip file and remove redundant files
+unzip ml-100k.zip
+rm ml-100k.zip
+
+# Create a directory in HDFS and print out where it is located
+hadoop fs -mkdir -p playground # The -p is important!
+hadoop fs -find / -name "playground" # Yields /user/root/playground
+
+# Copy the data into HDFS and verify it worked
+hadoop fs -copyFromLocal ml-100k playground/
+hadoop fs -ls playground/ml-100k
+```
