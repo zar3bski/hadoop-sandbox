@@ -1,6 +1,8 @@
+-- Following commands are not fully working. To be safe, just import the u.item file
+-- from the hue UI
 create table if not exists names(
     movie_id int,
-    title int,
+    title string,
     airing_date date,
     col1 int,
     col2 int,
@@ -24,7 +26,6 @@ create table if not exists names(
 row format delimited
 fields terminated by '|'
 stored as textfile;
-
 
 load data inpath  '/user/root/playground/ml-100k/u.item'
 overwrite into table names;

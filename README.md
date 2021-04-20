@@ -103,4 +103,4 @@ and convince yourself that the data is really there!
 ## Load some data into HIVE
 To loading some data from HDFS into HIVE, open the [UI of hue](http://localhost:8000/), 
 open up a new HiveQL query console and execute the commands shown in 
-`hue/queries/load_ratings_into_hive.sql`
+`hue/queries/load_ratings_into_hive.sql` or `hue/queries/load_names_into_hive.sql`
