@@ -70,6 +70,7 @@ parts added
 [complete list of HDFS commands](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/FileSystemShell.html)
 
 # Example usage
+## Downloading some data and putting it into the HDFS
 Go into the namenode and download some data
 ```
 # Go into the namenode container
@@ -94,3 +95,6 @@ hadoop fs -find / -name "playground" # Yields /user/root/playground
 hadoop fs -copyFromLocal ml-100k playground/
 hadoop fs -ls playground/ml-100k
 ```
+
+Now, browse the HDFS file system from the [UI of the namenode](http://localhost:9870/explorer.html#/user/root/playground/ml-100k) 
+and convince yourself that the data is really there!
