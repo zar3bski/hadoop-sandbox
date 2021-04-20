@@ -101,4 +101,6 @@ Now, browse the HDFS file system from the [UI of the namenode](http://localhost:
 and convince yourself that the data is really there!
 
 ## Load some data into HIVE
-To loading some data from HDFS into HIVE, open the [UI of hue]()
+To loading some data from HDFS into HIVE, open the [UI of hue](http://localhost:8000/), 
+open up a new HiveQL query console and execute the commands shown in 
+`hue/queries/load_ratings_into_hive.sql`
